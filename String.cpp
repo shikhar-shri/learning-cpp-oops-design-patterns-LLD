@@ -56,7 +56,7 @@ String::String(const String& str){ //copy ctor
 } 
 
 String& String::operator=(const String& str){ //copy assignment operator
-    
+    cout << "copy = operator called\n";
     if(this!=&str){
 
         char* temp = this->res;
@@ -115,6 +115,8 @@ int main(){
 
     String str2 = "World"; //parameterized constructor
     // String str3 ="Shikhar!"; //param ctor
+    str2 = "hello";
+    cout << str2;
 
     // String str2 = str1; //copy constructor
     // str3=str2; //copy assignment operator
@@ -126,8 +128,8 @@ int main(){
 
     // cin>>str; //takes the input string (overloading >> operator)
 
-    String str3 = std::move(str2); //move resources into str and str3 dies
-    cout << str3 << endl;
+    // String str3 = std::move(str2); //move resources into str and str3 dies
+    // cout << str3 << endl;
 
     return 0;
 }
