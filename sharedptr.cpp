@@ -6,19 +6,20 @@ class Sharedptr{
 
     public:
         Sharedptr(){
-            cout << "default ctor called\n";
+           cout << "Sharedptr default ctor called\n";
             res = nullptr;
             ref_count = new unsigned int(0); 
         }
 
         Sharedptr(T* a){
-            cout << "param ctor called\n";
+           cout << "Sharedptr param ctor called\n";
             res = a;
+            cout << res << endl;
             ref_count = new unsigned int(1); //this is the 1st reference
         }
 
         Sharedptr(const Sharedptr<T>& ptr){
-            cout << "copy ctor called\n";
+            cout << "Sharedptr copy ctor called\n";
             res = ptr.res;
             ref_count = ptr.ref_count;
             increment_ref_count();
@@ -28,28 +29,29 @@ class Sharedptr{
             /*
                 1. handle the case if the current ref count is 1
             */
-            cout << "copy = operator called\n";
+            cout << "Sharedptr copy = operator called\n";
             decrement_ref_count();
             // if(*ref_count == 1){
-            //     //if it was the last reference
-            //     delete res;
-            //     res = nullptr;
+                //     //if it was the last reference
+                //     delete res;
+                //     res = nullptr;
                 
-            //     delete ref_count;
-            //     ref_count = nullptr;
-            // }
-            // else{
-            //     //decrement the curr ref count
-            //     (*ref_count)--;
-            // }
-            
-            
-            
+                //     delete ref_count;
+                //     ref_count = nullptr;
+                // }
+                // else{
+                    //     //decrement the curr ref count
+                    //     (*ref_count)--;
+                    // }
+                    
+                    
+                    
             res = ptr.res;
             ref_count = ptr.ref_count;
-
+            
             increment_ref_count();
-
+            
+            cout << res << endl;
             return *this;
         }
 
@@ -57,7 +59,8 @@ class Sharedptr{
             return *ref_count;
         }
 
-        T& operator*(){
+        T operator*(){
+            cout<<res<<endl;
             return *res;
         }
 
@@ -98,6 +101,20 @@ class Sharedptr{
         }
 };
 
+class Test{
+    int x;
+
+public:
+    Test(){
+        x = 10;
+        cout << "Test default ctor\n";
+    }
+
+    Test(const Test& t){
+        cout << "Test copy ctor called\n";
+    }
+};
+
 int main(){
 
     // Sharedptr<int> ptr1 = new int(100); //param ctor
@@ -108,14 +125,19 @@ int main(){
 
     // cout << ptr2.get_ref_count() << endl; //returns how many current references are there pointing to the resource to which the current pointer is pointing
 
-    Sharedptr<char> ptr4; //default ctor
-    ptr4 = new char('a'); //copy = operator
+    Sharedptr<Test> ptr4 = new Test; //param ctor; 
 
-    cout << ptr4.get_ref_count() << endl;
+
+
+    // cout << ptr4.get_ref_count() << endl;
     ;
 
     // ptr1 = ptr3; //copy = operator
     // cout << *ptr1 << *ptr2 << *ptr3 << endl; //overload * operator
-    cout << *ptr4;
+    // cout << *ptr4;
+    Test obj = *ptr4;
+    cout<<&(obj)<<endl;
+
+
     return 0;
 }
